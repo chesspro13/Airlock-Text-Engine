@@ -4,45 +4,43 @@ package src;
 
 public class Item
 {
-	private Weapons weapon;
-	
-	private String name;
-	private int value;
-	private String description;
-	
-	public Item( Weapons weapon )
-	{
-		this.name = weapon.getName();
-		this. value = weapon.getCost();
-		this.description = weapon.getDescription();
-	}
+    private Weapons weapon;
 
-	public String getCost()
-	{
-		// TODO: Implement this method
-		return null;
-	}
+    private String name;
+    private int value;
+    private String description;
 
-	public String getEffect()
-	{
-		// TODO: Implement this method
-		return null;
-	}
+    public Item( Weapons weapon )
+    {
+        this.name = weapon.getName();
+        this. value = weapon.getCost();
+        this.description = weapon.getDescription();
+    }
 
-	public String getName()
-	{
-		return name;
-	}
+    public String getCost()
+    {
+        // TODO: Implement this method
+        return null;
+    }
 
-	public int getValue()
-	{
-		return value;
-	}
+    public String getEffect()
+    {
+        // TODO: Implement this method
+        return null;
+    }
 
-	public String getDescription()
-	{
-		return description;
-	}
-	
-	
+    public String getName()
+    {
+        return name;
+    }
+
+    public int getValue()
+    {
+        return value;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }	
 }
