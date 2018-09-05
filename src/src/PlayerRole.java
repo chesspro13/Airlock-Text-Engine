@@ -31,67 +31,67 @@ public enum PlayerRole
 	private final int baseEvasion;
 	
 	PlayerRole( String roleName, String roleDescription, int baseHealth, int baseMana, int basePhysicalAttack,
-		int baseMagicAttack, int basePhysicalDefence, int baseMagicdefence, int baseAgility, int baseEvasion)
+            int baseMagicAttack, int basePhysicalDefence, int baseMagicdefence, int baseAgility, int baseEvasion)
 	{
-		this.roleName = roleName;
-		this.roleDescription = roleDescription;
-		this.baseHealth = baseHealth;
-		this.baseMana = baseMana;
-		this.basePhysicalAttack = basePhysicalAttack;
-		this.baseMagicAttack = baseMagicAttack;
-		this.basePhysicalDefence = basePhysicalDefence;
-		this.baseMagicdefence = baseMagicdefence;
-		this.baseAgility = baseAgility;
-		this.baseEvasion = baseEvasion;
+            this.roleName = roleName;
+            this.roleDescription = roleDescription;
+            this.baseHealth = baseHealth;
+            this.baseMana = baseMana;
+            this.basePhysicalAttack = basePhysicalAttack;
+            this.baseMagicAttack = baseMagicAttack;
+            this.basePhysicalDefence = basePhysicalDefence;
+            this.baseMagicdefence = baseMagicdefence;
+            this.baseAgility = baseAgility;
+            this.baseEvasion = baseEvasion;
 	}
 	
 	public String getRoleName()
 	{
-		return this.roleName;
+            return this.roleName;
 	}
 	
 	public String gerRoleDescription()
 	{
-		return this.roleDescription;
+            return this.roleDescription;
 	}
 
 	public int getBaseHealth()
 	{
-		return baseHealth;
+            return baseHealth;
 	}
 
 	public int getBaseMana()
 	{
-		return baseMana;
+            return baseMana;
 	}
 
 	public int getBasePhysicalAttack()
 	{
-		return basePhysicalAttack;
+            return basePhysicalAttack;
 	}
 
 	public int getBaseMagicAttack()
 	{
-		return baseMagicAttack;
+            return baseMagicAttack;
 	}
 
 	public int getBasePhysicalDefence()
 	{
-		return basePhysicalDefence;
+            return basePhysicalDefence;
 	}
 
 	public int getBaseMagicdefence()
 	{
-		return baseMagicdefence;
+            return baseMagicdefence;
 	}
 
 	public int getBaseAgility()
 	{
-		return baseAgility;
+            return baseAgility;
 	}
 
 	public int getBaseEvasion()
 	{
-		return baseEvasion;
+            return baseEvasion;
 	}
 }
