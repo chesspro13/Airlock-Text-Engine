@@ -19,7 +19,7 @@ public class Game
         
    	boolean usingComputer;
 	boolean forceDebug;
-	
+	//beans
 	public Game( boolean usingComputer, boolean forceDebug )
 	{
 		try{
