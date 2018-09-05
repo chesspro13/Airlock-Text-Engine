@@ -1,0 +1,11 @@
+UiEvent
+	PrintWithPause
+	
+GameEvent
+	ChangeStates
+	GivePlayer
+		Money
+		
+
+InteractionEvent
+	MultipleChoice

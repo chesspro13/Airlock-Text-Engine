@@ -1,0 +1,15 @@
+UiEvent PrintWithPause "Welcome traveler!"
+
+UiEvent PrintWithPause "Your journey is about to start."
+
+UiEvent PrintWithPause "You will face many tough opponents."
+
+UiEvent PrintWithPause "But first you must buy equipment."
+
+UiEvent PrintWithPause "Take this and buy some equipment"
+
+GameEvent GivePlayer Money 500
+
+GameEvent ChangeStates Store1
+
+EndScript
