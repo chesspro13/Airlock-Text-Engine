@@ -28,13 +28,13 @@ public class Game
 		interactionEvent = new InteractionEvent();
 		scriptInterpreter = new Interpreter();
 		intro = new Intro( gameEvent, uiEvent, interactionEvent );
-		player = intro.loadSave(true);
+		player = intro.loadSave(forceDebug);
 		scanner = new Scanner[1];
 		store = new Store(player, gameEvent, uiEvent, interactionEvent);
 		
 		currentState = StoryLine.intro;
 		
-        this.usingComputer = usingComputer;
+                this.usingComputer = usingComputer;
 		this.forceDebug = forceDebug;
                 
 		while( true )
