@@ -6,19 +6,22 @@ import java.util.*;
 
 public class Inventory
 {
+        //Actual inventories where everything is stored.
 	LinkedList<Weapons> weapons;
 	LinkedList<Armor> armor;
 	LinkedList<Item> items;
 	
 	Player player;
 	
+        //Game Engine dependent :libraries"
 	GameEvent gameEvent;
 	UiEvent uiEvent;
 	InteractionEvent interactionEvent;
 
-	
+	//Current state within inventory/store. Both use same names.
 	StoreState tab;
 
+        //Initiates new inventory
 	public Inventory( Player player, GameEvent gameEvent, UiEvent uiEvent, InteractionEvent interactionEvent )
 	{
 		this.player = player;
@@ -37,6 +40,7 @@ public class Inventory
 		return weapons;
 	}
 	
+        //Gets a list of weapons to be presented in a string. 
 	public LinkedList<String []> getWeaponsString()
 	{
 		LinkedList<String []> temp = new LinkedList<String[]>();
@@ -53,6 +57,7 @@ public class Inventory
 		return armor;
 	}
 	
+        //Gets a list of armor to be presented in a string
 	public LinkedList<String []> getArmorString()
 	{
 		LinkedList<String []> temp = new LinkedList<String[]>();
@@ -69,6 +74,7 @@ public class Inventory
 		return items;
 	}
 	
+        //Gets a list of items to be presented in a string
 	public LinkedList<String []> getItemsString()
 	{
 		LinkedList<String []> temp = new LinkedList<String[]>();
@@ -80,91 +86,106 @@ public class Inventory
 		return temp;
 	}
 
+        //Views the inventory.
 	public void view()
 	{
-		tab = StoreState.WeaponsTab;
-		int choice;
-		String header;
-		String [] endOptions;
-		
-		while( true )
-		switch( tab )
-		{
-			//TODO: Add more information to inventory
-			case WeaponsTab:
-                            // TODO: Fix me
-				header = "<Weapon> Armor Items\tYour money: $" + player.getMoney();
-				String [] 	weaponsArray = new String[weapons.size()+ 3];
-				for(int i = 0; i < weapons.size(); i++){
-					//System.out.println(weapons.get(i).getName() + "\t" + weapons.get(i).getCost());
-					weaponsArray[i] = weapons.get(i).getName() + "\t" + weapons.get(i).getDescription();
-				}
-				endOptions = new String[]{
-					"Tab left",
-					"Tab Right",
-					"Leave"
-				};
-				choice = interactionEvent.getOptionInput( header, weapons, endOptions, 1 );
-				choice--;
-				System.out.println( choice + " = " + weaponsArray[choice] );
-				if( choice == weaponsArray.length - 3 )
-					tab = tabLeft( tab );
-				else if( choice == weaponsArray.length - 1 )
-					tab = tabRight( tab );
-				else if( choice == weaponsArray.length - 0 )
-					return;
-				else
-					viewItem( weapons.get( choice ) );
-				break;
-			case ArmorTab:
-				header = "Weapon <Armor> Items\tYour money: $" + player.getMoney();
-				String [] 	armorArray = new String[armor.size()+ 3];
-				for(int i = 0; i < armor.size(); i++){
-					//System.out.println(weapons.get(i).getName() + "\t" + weapons.get(i).getCost());
-					armorArray[i] = armor.get(i).getName() + "\t" + armor.get(i).getDescription();
-				}
-				endOptions = new String[]{
-					"Tab left",
-					"Tab Right",
-					"Leave"
-				};
-				choice = interactionEvent.getOptionInput( header, 1, armor, endOptions);
-				choice--;
-				System.out.println( armorArray[choice] );
-				if( choice == armorArray.length - 3 )
-					tab = tabLeft( tab );
-				else if( choice == armorArray.length - 2 )
-					tab = tabRight( tab );
-				else if( choice == armorArray.length - 1 )
-					return;
-				else
-					viewItem( armor.get( choice ));
-				break;
-			case ItemsTab:
-				header = "Weapon Armor <Items>\tYour money: $" + player.getMoney();
-				String [] 	itemsArray = new String[items.size()+ 3];
-				for(int i = 0; i < items.size(); i++){
-					//System.out.println(weapons.get(i).getName() + "\t" + weapons.get(i).getCost());
-					itemsArray[i] = items.get(i).getName() + "\t" + items.get(i).getDescription();
-				}
-				endOptions = new String[]{
-					"Tab left",
-					"Tab Right",
-					"Leave"
-				};
-				choice = interactionEvent.getOptionInput( header, items, 1, endOptions );
-				choice--;
-				System.out.println( choice + " = " + itemsArray[choice] );
-				if( choice == itemsArray.length - 3 )
-					tab = tabLeft( tab );
-				else if( choice == itemsArray.length - 2 )
-					tab = tabRight( tab );
-				else if( choice == itemsArray.length - 1 )
-					return;
-				else
-					viewItem( this.items.get(choice ) );
-				break;
-		}
+            //Get current tab that is in
+            tab = StoreState.WeaponsTab;
+            int choice;
+            String header;
+            String [] endOptions;
+
+            //Loop repeats until player leaves inventory
+            while( true )
+                switch( tab )
+                {
+                        //TODO: Add more information to inventory
+                        //Displayes item in weapons inventory tab, handles logic for menu navigation.
+                        case WeaponsTab:
+                                header = "<Weapon> Armor Items\tYour money: $" + player.getMoney();
+                                String [] weaponsArray = new String[weapons.size()];
+                                for(int i = 0; i < weapons.size(); i++){
+                                        weaponsArray[i] = weapons.get(i).getName() + "\t" + weapons.get(i).getDescription();
+                                }
+                                endOptions = new String[]{
+                                        "Tab left",
+                                        "Tab Right",
+                                        "Leave"
+                                };
+
+                                choice = interactionEvent.getOptionInput( header, weapons, endOptions, 1 );
+
+                                //Determines if selection is within weapon array range, if not then selection is menu navigation.
+                                if( choice >= weaponsArray.length )
+                                    choice -= weaponsArray.length;
+                                    if( choice == 1 )
+                                            tab = tabLeft( tab );
+                                    else if( choice == 2 )
+                                            tab = tabRight( tab );
+                                    else if( choice == 3 )
+                                        return;
+                                else
+                                        viewItem( weapons.get( choice ) );
+                                break;
+
+                        //Displayes item in Armor inventory tab, handles logic for menu navigation.
+                        case ArmorTab:
+                                header = "Weapon <Armor> Items\tYour money: $" + player.getMoney();
+                                String [] 	armorArray = new String[armor.size()];
+
+                                for(int i = 0; i < armor.size(); i++){
+                                        armorArray[i] = armor.get(i).getName() + "\t" + armor.get(i).getDescription();
+                                }
+                                endOptions = new String[]{
+                                        "Tab left",
+                                        "Tab Right",
+                                        "Leave"
+                                };
+
+                                choice = interactionEvent.getOptionInput( header, 1, armor, endOptions);
+
+                                //Determines if selection is within armor array range, if not then selection is menu navigation.
+                                if( choice > armorArray.length )
+                                    choice -= armorArray.length;
+                                    if( choice == 1 )
+                                            tab = tabLeft( tab );
+                                    else if( choice == 2 )
+                                            tab = tabRight( tab );
+                                    else if( choice == 3 )
+                                        return;
+                                else
+                                        viewItem( weapons.get( choice ) );
+                                break;
+
+                        case ItemsTab:
+                                header = "Weapon Armor <Items>\tYour money: $" + player.getMoney();
+                                String [] 	itemsArray = new String[items.size()];
+
+                                for(int i = 0; i < items.size(); i++){
+                                        itemsArray[i] = items.get(i).getName() + "\t" + items.get(i).getDescription();
+                                }
+
+                                endOptions = new String[]{
+                                        "Tab left",
+                                        "Tab Right",
+                                        "Leave"
+                                };
+
+                                choice = interactionEvent.getOptionInput( header, items, 1, endOptions );
+
+                                //Determines if selection is within item array range, if not then selection is menu navigation.
+                                if( choice > itemsArray.length )
+                                    choice -= itemsArray.length;
+                                    if( choice == 1 )
+                                            tab = tabLeft( tab );
+                                    else if( choice == 2 )
+                                            tab = tabRight( tab );
+                                    else if( choice == 3 )
+                                        return;
+                                else
+                                        viewItem( weapons.get( choice ) );
+                                break;
+                }
 	}
 	
 	private StoreState tabRight(StoreState tab)
@@ -197,6 +218,7 @@ public class Inventory
 		}
 	}
 
+        //View a specific weapon
 	private void viewItem(Weapons weapon)
 	{
 		String temp = "Name: " + weapon.getName()
@@ -217,6 +239,7 @@ public class Inventory
 		}
 	}
 
+        //View a specific armor
 	private void viewItem(Armor armor)
 	{
 		String temp = "Name: " + armor.getName()
@@ -237,6 +260,7 @@ public class Inventory
 		}
 	}
 
+        //View a specific item
 	private void viewItem(Item item)
 	{
 		String temp = "Name: " + item.getName()
