@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Store
 {
-	Player player;
+	PlayerOld player;
 	GameEvent gameEvent;
 	UiEvent uiEvent;
 	InteractionEvent interactionEvent;
@@ -20,7 +20,7 @@ public class Store
 	
 	boolean forceDebug;
 
-	public Store(Player player, GameEvent gameEvent, UiEvent uiEvent, InteractionEvent interactionEvent)
+	public Store(PlayerOld player, GameEvent gameEvent, UiEvent uiEvent, InteractionEvent interactionEvent)
 	{
 		this.player = player;
 		this.gameEvent = gameEvent;

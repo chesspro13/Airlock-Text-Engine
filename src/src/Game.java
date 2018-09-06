@@ -10,7 +10,7 @@ public class Game
 	Interpreter scriptInterpreter;
 	Scanner [] scanner;
 	Intro intro;
-	Player player;
+	PlayerOld player;
 	StoryLine currentState;
 	UiEvent uiEvent;
 	GameEvent gameEvent;

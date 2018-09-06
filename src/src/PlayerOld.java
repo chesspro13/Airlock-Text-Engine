@@ -4,7 +4,7 @@ package src;
 
 import java.util.*;
 
-public class Player
+public class PlayerOld
 {
 	private GameEvent gameEvent;
 	private UiEvent uiEvent;
@@ -23,7 +23,7 @@ public class Player
 	private int attack;
 	 
 	
-	public Player(String name, boolean isMale, PlayerRole playerRole,
+	public PlayerOld(String name, boolean isMale, PlayerRole playerRole,
 			GameEvent gameEvent, UiEvent uiEvent, InteractionEvent interactionEvent)
 	{
 		this.gameEvent = gameEvent;

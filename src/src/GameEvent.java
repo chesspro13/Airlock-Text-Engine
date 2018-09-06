@@ -23,7 +23,7 @@ public class GameEvent
 		}
 	}
 	
-	public void givePlayer( Scanner script, Player player, UiEvent uiEvent)
+	public void givePlayer( Scanner script, PlayerOld player, UiEvent uiEvent)
 	{
 		switch( script.next().trim() )
 		{

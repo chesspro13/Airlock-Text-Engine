@@ -9,7 +9,7 @@ public class Intro
 	private UiEvent uiEvent;
 	private InteractionEvent interactionEvent;
 	
-	Player player;
+	PlayerOld player;
 	
 	Formatting input;
 	
@@ -29,13 +29,13 @@ public class Intro
 		//loadSave( true );
 	}
 
-	public Player loadSave( boolean forceDebigSave )
+	public PlayerOld loadSave( boolean forceDebigSave )
 	{
 		this.forceDebugSave = forceDebigSave;
 		
 		if( forceDebugSave )
 		{
-			return new Player("Mauldin", true, PlayerRole.Theif, gameEvent, uiEvent, interactionEvent);
+			return new PlayerOld("Mauldin", true, PlayerRole.Theif, gameEvent, uiEvent, interactionEvent);
 		}
 		
 		//Search file system got a save file
@@ -49,11 +49,11 @@ public class Intro
 		}else
 		{
 			//Ask to load saved game
-			return new Player("Mauldin", true, PlayerRole.Theif, gameEvent, uiEvent, interactionEvent);
+			return new PlayerOld("Mauldin", true, PlayerRole.Theif, gameEvent, uiEvent, interactionEvent);
 		}
 	}
 
-	private Player getPlayerInfo()
+	private PlayerOld getPlayerInfo()
 	{
 		userData = new LinkedList();
 		int tempOption;
@@ -94,13 +94,13 @@ public class Intro
 			System.out.println( tempOption );
 			//Save players data
 			generatePlayerSaveFile();
-			return new Player( (String)userData.get(1), (boolean)userData.get(0), (PlayerRole) userData.get(2), gameEvent, uiEvent, interactionEvent);
+			return new PlayerOld( (String)userData.get(1), (boolean)userData.get(0), (PlayerRole) userData.get(2), gameEvent, uiEvent, interactionEvent);
 		}else if(tempOption == 2)
 		{
 			System.out.println(" talking else rout");
 			return getPlayerInfo();
 		}else
-			return new Player("New Player", true, PlayerRole.Theif, gameEvent, uiEvent, interactionEvent);
+			return new PlayerOld("New Player", true, PlayerRole.Theif, gameEvent, uiEvent, interactionEvent);
 	}
 	
 	private void generatePlayerSaveFile()

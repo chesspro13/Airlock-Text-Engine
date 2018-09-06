@@ -10,7 +10,7 @@ public class Inventory
 	LinkedList<Armor> armor;
 	LinkedList<Item> items;
 	
-	Player player;
+	PlayerOld player;
 	
 	GameEvent gameEvent;
 	UiEvent uiEvent;
@@ -19,7 +19,7 @@ public class Inventory
 	
 	StoreState tab;
 
-	public Inventory( Player player, GameEvent gameEvent, UiEvent uiEvent, InteractionEvent interactionEvent )
+	public Inventory( PlayerOld player, GameEvent gameEvent, UiEvent uiEvent, InteractionEvent interactionEvent )
 	{
 		this.player = player;
 		
