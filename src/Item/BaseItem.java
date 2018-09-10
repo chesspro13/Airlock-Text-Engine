@@ -17,4 +17,19 @@ public class BaseItem {
     {
         return itemType;
     }
+    
+    public int getCost()
+    {
+        return cost;
+    }
+    
+    public String getDescription()
+    {
+        return description;
+    }
+    
+//    public String getAllInfoForSaleArray()
+//    {
+//        return "Default sale thing";
+//    }
 }

@@ -4,18 +4,36 @@ import CharacterClasses.BaseFighterClass;
 import CharacterClasses.BaseHealerClass;
 import CharacterClasses.CharacterClass;
 import CharacterClasses.Classes;
+import IO.IO;
+import src.GameEvent;
+import src.UiEvent;
 
 public class CharacterCreation {
 
     private Player tempPlayer;
     
-    public void createCharacter()
+    public Player createCharacter(String name, boolean gender, Classes playerClass, PlayerIdentifier playerIdentifier
+            , GameEvent gameEvent, UiEvent uiEvent, IO interactionEvent)
+    {
+        tempPlayer = new Player();
+        setName(name);
+        setGender(gender);
+        createCharacterInventory(playerIdentifier);
+        
+        tempPlayer.setCharacterType(playerIdentifier);
+        
+        return tempPlayer;
+    }
+    
+    public Player createCharacter(PlayerIdentifier playerIdentifier)
     {
         tempPlayer = new Player();
         setName("Mauldin");
         setGender(true);
-        createCharacterInventory();
-        setCharacterClass();
+        createCharacterInventory(playerIdentifier);
+        setCharacterClass(Classes.Fighter);
+        
+        return tempPlayer;
     }
     
     private void setName(String name)
@@ -23,9 +41,9 @@ public class CharacterCreation {
         tempPlayer.setName(name);
     }
     
-    private void setCharacterClass()
+    private void setCharacterClass(Classes playerClass)
     {
-        CharacterClass characterClass = getCharacterClass();
+        CharacterClass characterClass = getCharacterClass(playerClass);
         tempPlayer.setCharacterClass(characterClass);
     }
     
@@ -34,18 +52,16 @@ public class CharacterCreation {
         tempPlayer.setGender(isMale);
     }
     
-    private void createCharacterInventory()
+    private void createCharacterInventory(PlayerIdentifier playerIdentifier)
     {
-        tempPlayer.setInventory(new CharacterInventory());
+        tempPlayer.setInventory(new CharacterInventory(playerIdentifier));
     }
     
-    private CharacterClass getCharacterClass()
+    private CharacterClass getCharacterClass(Classes playerClass)
     {
         CharacterClass characterClass = new CharacterClass();
-        //TODO: add a user input to get which type of class player wants to be
-        Classes temp = Classes.Fighter;
         
-        switch( temp )
+        switch( playerClass )
         {
             case Fighter:
                 BaseFighterClass bfc = new BaseFighterClass();

@@ -2,6 +2,7 @@ package src;
 
 //package src;
 
+import Player.Player;
 import java.util.*;
 
 public class GameEvent
@@ -23,12 +24,17 @@ public class GameEvent
 		}
 	}
 	
-	public void givePlayer( Scanner script, PlayerOld player, UiEvent uiEvent)
+	public void givePlayer( Scanner script, Player player, UiEvent uiEvent)
 	{
 		switch( script.next().trim() )
 		{
 			case "Money":
-				player.giveMoney( script.nextInt(), uiEvent );
+                            int temp = script.nextInt();
+                                System.out.println("Giving moneys: " + temp);
+				GlobalInventory inv = player.getGlobalInventory();
+                                if( inv == null )
+                                    System.err.println("Global inventory doesn't exist");
+                                inv.giveMoney(temp, uiEvent );
 				break;
 			default:
 				System.out.println("error: command not found");

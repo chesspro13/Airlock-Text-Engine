@@ -2,14 +2,19 @@ package src;
 
 //package src;
 
+import CharacterClasses.Classes;
+import IO.IO;
+import Player.CharacterCreation;
+import Player.Player;
+import Player.PlayerIdentifier;
 import java.util.*;
 public class Intro
 {
 	private GameEvent gameEvent;
 	private UiEvent uiEvent;
-	private InteractionEvent interactionEvent;
+	private IO interactionEvent;
 	
-	PlayerOld player;
+	Player player;
 	
 	Formatting input;
 	
@@ -19,7 +24,7 @@ public class Intro
 	
 	LinkedList userData;
 
-	public Intro( GameEvent gameEvent, UiEvent uiEvent, InteractionEvent interactionEvent)
+	public Intro( GameEvent gameEvent, UiEvent uiEvent, IO interactionEvent)
 	{
 		this.gameEvent = gameEvent;
 		this.uiEvent = uiEvent;
@@ -29,13 +34,13 @@ public class Intro
 		//loadSave( true );
 	}
 
-	public PlayerOld loadSave( boolean forceDebigSave )
+	public Player loadSave( boolean forceDebigSave )
 	{
 		this.forceDebugSave = forceDebigSave;
 		
 		if( forceDebugSave )
 		{
-			return new PlayerOld("Mauldin", true, PlayerRole.Theif, gameEvent, uiEvent, interactionEvent);
+			return new CharacterCreation().createCharacter("Mauldin", true, Classes.Fighter, PlayerIdentifier.Main, gameEvent, uiEvent, interactionEvent);
 		}
 		
 		//Search file system got a save file
@@ -48,12 +53,12 @@ public class Intro
 			return getPlayerInfo();
 		}else
 		{
-			//Ask to load saved game
-			return new PlayerOld("Mauldin", true, PlayerRole.Theif, gameEvent, uiEvent, interactionEvent);
+			//TODO: Ask to load saved game
+			return new CharacterCreation().createCharacter("Mauldin", true, Classes.Fighter, PlayerIdentifier.Main, gameEvent, uiEvent, interactionEvent);
 		}
 	}
 
-	private PlayerOld getPlayerInfo()
+	private Player getPlayerInfo()
 	{
 		userData = new LinkedList();
 		int tempOption;
@@ -68,20 +73,14 @@ public class Intro
 		tempInput = input.getTextInput("What is your name?");
 			userData.add(tempInput);
 			
-		tempOption = input.getOptionInput("What is your class?", new String[]{"Fighter","Magician", "Theif", "Healer"});
+		tempOption = input.getOptionInput("What is your class?", new String[]{"Fighter", "Healer"});
 		switch( tempOption )
 		{
 			case 1:
-				userData.add(PlayerRole.Fighter);
+				userData.add(Classes.Fighter);
 				break;
 			case 2:
-				userData.add(PlayerRole.Magician);
-				break;
-			case 3:
-				userData.add(PlayerRole.Theif);
-				break;
-			case 4:
-				userData.add(PlayerRole.Healer);
+				userData.add(Classes.Healer);
 				break;
 		}
 		
@@ -89,18 +88,20 @@ public class Intro
 		tempInput += "\n\tName: " + userData.get(1) + "\n\tClass: " + ((PlayerRole)userData.get(2)).getRoleName();
 		
 		tempOption = input.getOptionInput( tempInput, new String[]{"Yes","No"});
+                //Information is correct
 		if( tempOption == 1 )
 		{
 			System.out.println( tempOption );
 			//Save players data
 			generatePlayerSaveFile();
-			return new PlayerOld( (String)userData.get(1), (boolean)userData.get(0), (PlayerRole) userData.get(2), gameEvent, uiEvent, interactionEvent);
+                        return new CharacterCreation().createCharacter( (String)userData.get(1), (boolean)userData.get(0), (Classes) userData.get(2),PlayerIdentifier.Main, gameEvent, uiEvent, interactionEvent);
+                        //Information is incorrect
 		}else if(tempOption == 2)
 		{
 			System.out.println(" talking else rout");
 			return getPlayerInfo();
 		}else
-			return new PlayerOld("New Player", true, PlayerRole.Theif, gameEvent, uiEvent, interactionEvent);
+			return new CharacterCreation().createCharacter("Mauldin", true, Classes.Fighter, PlayerIdentifier.Main, gameEvent, uiEvent, interactionEvent);
 	}
 	
 	private void generatePlayerSaveFile()
