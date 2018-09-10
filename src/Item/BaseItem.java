@@ -1,14 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Item;
 
-/**
- *
- * @author chess
- */
 public class BaseItem {
+
+    protected String name;
+    protected String description;
+    protected int cost;
     
+    protected ItemType itemType;
+    
+    public String getName()
+    {
+        return name;
+    }
+    
+    public ItemType getItemType()
+    {
+        return itemType;
+    }
 }

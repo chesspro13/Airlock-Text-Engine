@@ -9,7 +9,8 @@ public class Player {
     private CharacterInventory inventory;
     private CharacterClass characterClass;
     
-    void Player(){
+    public Player(){
+        inventory = new CharacterInventory();
     }
 
     public String getName() {

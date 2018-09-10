@@ -1,12 +1,11 @@
 package CharacterClasses;
 
-/**
- *
- * @author chesspro13
- */
+import Item.BaseItem;
 
 //Base parrent class to all character class types
 public class BaseClass {
+
+    protected Classes characterClassType;
     protected String characterClassName;
     protected String characterClassDescription;
     
@@ -17,7 +16,7 @@ public class BaseClass {
     protected int wisdom;
     protected int charisma;
     
-    protected String[] classItems;
+    protected BaseItem [] classItems;
 
     public int getInteligance() {
         return inteligance;
@@ -87,7 +86,7 @@ public class BaseClass {
         this.charisma = charisma;
     }
     
-    public String[] getClassItems()
+    public BaseItem[] getClassItems()
     {
         return classItems;
     }

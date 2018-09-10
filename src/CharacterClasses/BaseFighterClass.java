@@ -1,9 +1,14 @@
 package CharacterClasses;
 
+import Item.BaseItem;
+import Item.Potions.Health.PotionHealth;
+import Item.Weapons.WeaponWoodenSword;
+
 public class BaseFighterClass extends BaseClass{
         
-    void BaseFighterClass()
+    public BaseFighterClass()
     {
+        characterClassType = Classes.Fighter;
         characterClassName = "Fighter";
         characterClassDescription = "Tough fighter guy...";
         
@@ -14,6 +19,6 @@ public class BaseFighterClass extends BaseClass{
         wisdom = 11;
         charisma = 14;
         
-        classItems = new String[]{"Sword", "Simple_Armor", "Bo-Bo_potion"};
+        classItems = new BaseItem[]{new WeaponWoodenSword(), new PotionHealth()};
     }
 }

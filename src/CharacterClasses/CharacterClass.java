@@ -11,6 +11,11 @@ public class CharacterClass {
     private int wisdom;
     private int charisma;
 
+    public CharacterClass()
+    {
+        
+    }
+    
     public String getCharacterClassName() {
         return characterClassName;
     }

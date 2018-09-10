@@ -1,7 +1,9 @@
 package Player;
 
 import CharacterClasses.BaseFighterClass;
+import CharacterClasses.BaseHealerClass;
 import CharacterClasses.CharacterClass;
+import CharacterClasses.Classes;
 
 public class CharacterCreation {
 
@@ -12,6 +14,7 @@ public class CharacterCreation {
         tempPlayer = new Player();
         setName("Mauldin");
         setGender(true);
+        createCharacterInventory();
         setCharacterClass();
     }
     
@@ -39,10 +42,12 @@ public class CharacterCreation {
     private CharacterClass getCharacterClass()
     {
         CharacterClass characterClass = new CharacterClass();
+        //TODO: add a user input to get which type of class player wants to be
+        Classes temp = Classes.Fighter;
         
-        switch( 1 )
+        switch( temp )
         {
-            case 1:
+            case Fighter:
                 BaseFighterClass bfc = new BaseFighterClass();
                 characterClass.setCharacterClassName(bfc.getCharacterClassName());
                 characterClass.setCharacterClassDescription(bfc.getCharacterClassDescription());
@@ -54,9 +59,23 @@ public class CharacterCreation {
                 characterClass.setWisdom(bfc.getWisdom());
                 characterClass.setCharisma(bfc.getCharisma());
                 
-                tempPlayer.getInventory().addItem( bfc.getClassItems() );
+                tempPlayer.getInventory().addItem(bfc.getClassItems());
+                break;
+            case Healer:
+                BaseHealerClass bhc = new BaseHealerClass();
+                characterClass.setCharacterClassName(bhc.getCharacterClassName());
+                characterClass.setCharacterClassDescription(bhc.getCharacterClassDescription());
+
+                characterClass.setStrength(bhc.getStrength());
+                characterClass.setDextarity(bhc.getDextarity());
+                characterClass.setConstitiution(bhc.getConstitiution());
+                characterClass.setInteligance(bhc.getInteligance());
+                characterClass.setWisdom(bhc.getWisdom());
+                characterClass.setCharisma(bhc.getCharisma());
+                
+                tempPlayer.getInventory().addItem(bhc.getClassItems());
                 break;
         }
-        return null;
+        return characterClass;
     }
 }
