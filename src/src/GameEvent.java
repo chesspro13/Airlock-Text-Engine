@@ -11,7 +11,7 @@ public class GameEvent
 	{
 		System.out.println("\n" + event);
 	}
-	
+
 	public StoryLine changeGameState( Scanner script )
 	{
 		switch( script.next() )
@@ -23,7 +23,7 @@ public class GameEvent
 				return StoryLine.intro;
 		}
 	}
-	
+
 	public void givePlayer( Scanner script, Player player, UiEvent uiEvent)
 	{
 		switch( script.next().trim() )

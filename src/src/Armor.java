@@ -1,7 +1,5 @@
 package src;
 
-//package src;
-//X-COMMENT: Main-Class will be added automatically by build
 public enum Armor
 {
 //	0 = name
