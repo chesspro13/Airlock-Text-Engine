@@ -12,16 +12,7 @@ public class Weapons {
     
     public LinkedList<BaseItem> getAll()
     {
-        LinkedList<BaseItem> allWeapons = new LinkedList<>();
-        getStick();
-        System.out.println(allWeapons.get(0).getName());
-                
         
-        return allWeapons;
-    }
-    
-    public LinkedList<BaseItem> getStick()
-    {
         allWeapons.add(new WeaponStick());
         System.out.println("Added " + allWeapons.get(0).getName() + "to master weapon list");
         allWeapons.add(new WeaponWoodenSword());
@@ -34,7 +25,6 @@ public class Weapons {
         System.out.println("Added " + allWeapons.get(4).getName() + "to master weapon list");
         allWeapons.add(new WeaponBow());
         System.out.println("Added " + allWeapons.get(5).getName() + "to master weapon list");
-                
         
         return allWeapons;
     }
