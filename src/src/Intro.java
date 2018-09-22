@@ -13,15 +13,15 @@ public class Intro
 	private GameEvent gameEvent;
 	private UiEvent uiEvent;
 	private IO interactionEvent;
-	
+
 	Player player;
-	
+
 	Formatting input;
-	
+
 	private boolean hasSave;
-	
+
 	private boolean forceDebugSave;
-	
+
 	LinkedList userData;
 
 	public Intro( GameEvent gameEvent, UiEvent uiEvent, IO interactionEvent)
@@ -29,7 +29,7 @@ public class Intro
 		this.gameEvent = gameEvent;
 		this.uiEvent = uiEvent;
 		this.interactionEvent = interactionEvent;
-		
+
 		input = new Formatting();
 		//loadSave( true );
 	}
@@ -37,17 +37,17 @@ public class Intro
 	public Player loadSave( boolean forceDebigSave )
 	{
 		this.forceDebugSave = forceDebigSave;
-		
+
 		if( forceDebugSave )
 		{
 			return new CharacterCreation().createCharacter("Mauldin", true, Classes.Fighter, PlayerIdentifier.Main, gameEvent, uiEvent, interactionEvent);
 		}
-		
+
 		//Search file system got a save file
 		hasSave = false;
 
-		
-		
+
+
 		if( !hasSave )
 		{
 			return getPlayerInfo();
@@ -63,16 +63,16 @@ public class Intro
 		userData = new LinkedList();
 		int tempOption;
 		String tempInput;
-		
+
 		tempOption = input.getOptionInput("Are you a boy or girl?", new String[]{"Boy", "Girl"});
 		if( tempOption == 1 )
 			userData.add(true);
 		else
 			userData.add(false);
-			
+
 		tempInput = input.getTextInput("What is your name?");
 			userData.add(tempInput);
-			
+
 		tempOption = input.getOptionInput("What is your class?", new String[]{"Fighter", "Healer"});
 		switch( tempOption )
 		{
@@ -83,10 +83,10 @@ public class Intro
 				userData.add(Classes.Healer);
 				break;
 		}
-		
+
 		tempInput = "Is this information correct?\n\tGender: " + userData.get(0);
 		tempInput += "\n\tName: " + userData.get(1) + "\n\tClass: " + ((PlayerRole)userData.get(2)).getRoleName();
-		
+
 		tempOption = input.getOptionInput( tempInput, new String[]{"Yes","No"});
                 //Information is correct
 		if( tempOption == 1 )
@@ -103,7 +103,7 @@ public class Intro
 		}else
 			return new CharacterCreation().createCharacter("Mauldin", true, Classes.Fighter, PlayerIdentifier.Main, gameEvent, uiEvent, interactionEvent);
 	}
-	
+
 	private void generatePlayerSaveFile()
 	{
 		int [] stats;
@@ -115,6 +115,6 @@ public class Intro
 //		5 = energy
 //		6 = agility
 //		7 = evasion
-		
-	}
+
+    }
 }

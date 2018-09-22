@@ -12,9 +12,4 @@ public enum StoreState
 	WeaponsTab,
 	ArmorTab,
 	ItemsTab;
-	
-	StoreState()
-	{
-		
-	}
 }

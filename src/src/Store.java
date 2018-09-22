@@ -23,11 +23,11 @@ public class Store
 	StoreState lastState;
 
 	String[] endOptions;
-	
+
 	boolean forceDebug;
 
         GlobalInventory gi;
-        
+
 	public Store(Player player, GameEvent gameEvent, UiEvent uiEvent, IO interactionEvent)
 	{
 		this.player = player;
@@ -37,7 +37,7 @@ public class Store
 
 		storeState = storeState.Welcome;
 		lastState = storeState.Welcome;
-                
+
                 gi = player.getGlobalInventory();
 	}
 
@@ -69,7 +69,7 @@ public class Store
 				if(forceDebug)
 				{
                                     BaseItem item = new WeaponStick();
-                                    
+
 					gi.buyWeapon(item);
         				//gi.buyItem(Armor.Cloth);
 				}
@@ -123,16 +123,16 @@ public class Store
 				case WeaponsTab:
 					temp = "<Weapons> Armor Items\tYour money: $" + gi.getMoney();
 					outputArray  = new LinkedList<>();
-					
+
                                         //Working
                                         LinkedList<BaseItem> allWeapons = new Weapons().getAll();
-                                        
+
                                         for (int i = 0; i < allWeapons.size(); i++) {
                                             outputArray.add( ((BaseItemWeapon)allWeapons.get(i)).getAllInfoForSaleArray() );
                                             //Debug:
 //                                            for (int j = 0; j < outputArray.get(0).length; j++) {
 //                                                System.out.println(outputArray.get(0)[j]);
-//                                                
+//
 //                                            }
                                         }
                                         extraOptions = new String[]{
@@ -140,7 +140,7 @@ public class Store
                                             "Tab Left",
                                             "Tab Right",
                                             "Exit"};
-                                        
+
                                         choice = interactionEvent.printOptoins(temp, outputArray, OutputType.StoreOutput, extraOptions);
 					System.out.println("List size: " + outputArray.size() + "\nChoice: " + choice);
 					if(choice == outputArray.size() + 1)
@@ -167,7 +167,7 @@ public class Store
 					temp = "Weapons <Armor> Items\tYour money: $" + gi.getMoney();
 					outputArray  = new LinkedList<String[]>();
                                         LinkedList<BaseItem> allArmor = new LinkedList<BaseItem>();
-                                        
+
                                         for (int i = 0; i < allArmor.size(); i++) {
                                             outputArray.add( ((BaseItemArmor)allArmor.get(i)).getAllInfoForSaleArray() );
                                         }
@@ -176,9 +176,9 @@ public class Store
                                             "Tab Left",
                                             "Tab Right",
                                             "Exit"};
-                                        
+
                                         choice = interactionEvent.printOptoins(temp, outputArray, OutputType.StoreOutput, extraOptions);
-                                        
+
 					System.out.println(choice);
 					if(choice == outputArray.size() + 1)
 						gi.view();
@@ -198,15 +198,15 @@ public class Store
 				case ItemsTab:
 					temp = "Weapons Armor <Items>\tYour money: $" + gi.getMoney();
 					outputArray  = new LinkedList<String[]>();
-                                        
+
                                         extraOptions = new String[]{
                                             "View Inventory",
                                             "Tab Left",
                                             "Tab Right",
                                             "Exit"};
-                                        
+
                                         choice = interactionEvent.printOptoins(temp, outputArray, OutputType.StoreOutput, extraOptions);
-                                        
+
 					System.out.println(choice);
 					if(choice == outputArray.size() + 1)
 						gi.view();
@@ -220,7 +220,7 @@ public class Store
 						return;
 					}
 					else
-                                        
+
                                     break;
 			}
 		}
@@ -251,7 +251,7 @@ public class Store
 				case WeaponsTab:
 					temp = "<Weapon> Armor Items\tYour money: $" + gi.getMoney();
 					w  = gi.getAllWeaponsFromAllInventoriesString();
-					
+
 					endOptions = new String[]{
 						"Tab left",
 						"Tab Right",
@@ -259,7 +259,7 @@ public class Store
 					};
 					//choice = -1;
                                         choice = interactionEvent.printOptions(temp, w, OutputType.SellingOutput);
-					
+
 					choice--;
 					System.out.println(choice + " == " + weapons.get(choice));
 					if(choice == w.size() + endOptions.length - 3)
@@ -276,7 +276,7 @@ public class Store
 						int confirm = interactionEvent.getOptionInput("Are you sure?", new String[]{"yes", "no"});
 						if(--confirm == 0)
                                                     gi.sellWeapon(choice);
-                                                    
+
 					}
 					break;
 				case ArmorTab:
@@ -287,9 +287,9 @@ public class Store
 						"Tab Right",
 						"Leave"
 					};
-                                        
+
                                         choice = interactionEvent.printOptions(temp, w, OutputType.SellingOutput);
-                                        
+
 					choice--;
 					//System.out.println(choice + " == " + armorArray[choice]);
 					if(choice == w.size() + endOptions.length - 3)
@@ -316,9 +316,9 @@ public class Store
 						"Tab Right",
 						"Leave"
 					};
-                                        
+
                                         choice = interactionEvent.printOptions(temp, w, OutputType.SellingOutput);
-                                        
+
 					choice--;
 					//System.out.println(choice + " == " + itemsArray[choice]);
 					if(choice == w.size() + endOptions.length - 3)
@@ -383,5 +383,3 @@ public class Store
 		return true;
 	}
 }
-
-

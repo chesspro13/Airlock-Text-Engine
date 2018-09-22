@@ -19,7 +19,7 @@ public class Game
 	IO interactionEvent;
 	Store store;
         GlobalInventory globalInventory;
-        
+
    	boolean usingComputer;
 	boolean forceDebug;
 	//beans
@@ -36,12 +36,12 @@ public class Game
                 player.setGlobalInventory(globalInventory);
 		scanner = new Scanner[1];
 		store = new Store(player, gameEvent, uiEvent, interactionEvent);
-		
+
 		currentState = StoryLine.intro;
-		
+
         this.usingComputer = usingWindows;
 		this.forceDebug = forceDebug;
-                
+
 		while( true )
 			update();
 			}catch(Exception e)
@@ -50,7 +50,7 @@ public class Game
 				e.printStackTrace();
 			}
 	}
-	
+
 	private void update()
 	{
 		switch( currentState )
@@ -77,7 +77,7 @@ public class Game
 			break;
 		}
 	}
-	
+
 	private void followScript( Scanner script )
 	{
 		if( script.hasNext() )
