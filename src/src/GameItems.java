@@ -2,7 +2,7 @@ package src;
 
 //package src;
 
-public enum Items
+public enum GameItems
 {
 //	0 = name
 //	1 = cost
@@ -28,7 +28,7 @@ public enum Items
 	private final int handsRequired;
 	private final String description;
 
-	Items(String name, int cost, int attack, int handsRrquired, String description)
+	GameItems(String name, int cost, int attack, int handsRrquired, String description)
 	{
 		this.name = name;
 		this.cost = cost;

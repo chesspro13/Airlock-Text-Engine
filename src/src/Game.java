@@ -2,6 +2,8 @@ package src;
 
 //package src;
 
+import IO.IO;
+import Player.Player;
 import java.io.*;
 import java.util.*;
 
@@ -14,29 +16,32 @@ public class Game
 	StoryLine currentState;
 	UiEvent uiEvent;
 	GameEvent gameEvent;
-	InteractionEvent interactionEvent;
+	IO interactionEvent;
 	Store store;
-        
+        GlobalInventory globalInventory;
+
    	boolean usingComputer;
 	boolean forceDebug;
-	
-	public Game( boolean usingComputer, boolean forceDebug )
+	//beans
+	public Game( boolean usingWindows, boolean forceDebug )
 	{
 		try{
 		uiEvent = 	new UiEvent();
 		gameEvent = new GameEvent();
-		interactionEvent = new InteractionEvent();
+		interactionEvent = new IO();
 		scriptInterpreter = new Interpreter();
+                globalInventory = new GlobalInventory(gameEvent, uiEvent, interactionEvent);
 		intro = new Intro( gameEvent, uiEvent, interactionEvent );
-		player = intro.loadSave(forceDebug);
+		player = intro.loadSave(true);
+                player.setGlobalInventory(globalInventory);
 		scanner = new Scanner[1];
 		store = new Store(player, gameEvent, uiEvent, interactionEvent);
-		
+
 		currentState = StoryLine.intro;
-		
-                this.usingComputer = usingComputer;
+
+        this.usingComputer = usingWindows;
 		this.forceDebug = forceDebug;
-                
+
 		while( true )
 			update();
 			}catch(Exception e)
@@ -45,7 +50,7 @@ public class Game
 				e.printStackTrace();
 			}
 	}
-	
+
 	private void update()
 	{
 		switch( currentState )
@@ -72,7 +77,7 @@ public class Game
 			break;
 		}
 	}
-	
+
 	private void followScript( Scanner script )
 	{
 		if( script.hasNext() )
