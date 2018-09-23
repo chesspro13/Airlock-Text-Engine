@@ -6,44 +6,43 @@ import IO.OutputType;
 import Item.BaseItem;
 import Item.BaseItemArmor;
 import Item.BaseItemWeapon;
+import Item.Weapons.WeaponDagger;
 import Item.Weapons.WeaponStick;
 import Item.Weapons.Weapons;
 import Player.Player;
 import java.util.*;
 
-public class Store
-{
-	Player player;
-	GameEvent gameEvent;
-	UiEvent uiEvent;
-	IO interactionEvent;
-	Scanner scanner;
+public class Store {
 
-	StoreState storeState;
-	StoreState lastState;
+    Player player;
+    GameEvent gameEvent;
+    UiEvent uiEvent;
+    IO interactionEvent;
+    Scanner scanner;
 
-	String[] endOptions;
+    StoreState storeState;
+    StoreState lastState;
 
-	boolean forceDebug;
+    String[] endOptions;
 
-        GlobalInventory gi;
+    boolean forceDebug;
 
-	public Store(Player player, GameEvent gameEvent, UiEvent uiEvent, IO interactionEvent)
-	{
-		this.player = player;
-		this.gameEvent = gameEvent;
-		this.uiEvent = uiEvent;
-		this.interactionEvent = interactionEvent;
+    GlobalInventory gi;
 
-		storeState = storeState.Welcome;
-		lastState = storeState.Welcome;
+    public Store(Player player, GameEvent gameEvent, UiEvent uiEvent, IO interactionEvent) {
+        this.player = player;
+        this.gameEvent = gameEvent;
+        this.uiEvent = uiEvent;
+        this.interactionEvent = interactionEvent;
 
-                gi = player.getGlobalInventory();
-	}
+        storeState = storeState.Welcome;
+        lastState = storeState.Welcome;
 
-	public void startStore(boolean forceDebug)
-	{
-		this.forceDebug = forceDebug;
+        gi = player.getGlobalInventory();
+    }
+
+    public void startStore(boolean forceDebug) {
+        this.forceDebug = forceDebug;
 //		try
 //		{
 //			//scanner = new Scanner(new File(StoryLine.store1.getFileLocation()));
@@ -56,330 +55,330 @@ public class Store
 //			return;
 //		}
 
-		update();
-	}
+        update();
+    }
 
-	private void update()
-	{
+    private void update() {
 
-		switch(storeState)
-		{
-			case Welcome:
-				uiEvent.printWithPause("Welcome to my store");
-				if(forceDebug)
-				{
-                                    BaseItem item = new WeaponStick();
+        switch (storeState) {
+            case Welcome:
+                uiEvent.printWithPause("Welcome to my store");
+                if (forceDebug) {
+                    BaseItem item = new WeaponStick();
+                    gi.buyWeapon(item);
+                    item = new WeaponDagger();
+                    gi.buyItem(item);
+                    //gi.buyItem(Armor.Cloth);
+                }
+                switch (interactionEvent.getOptionInput("What would you like to do?", new String[]{"Buy", "Sell", "Leave"})) {
+                    case 1:
+                        lastState = storeState;
+                        this.storeState = storeState.Buying;
+                        break;
+                    case 2:
+                        lastState = storeState;
+                        this.storeState = storeState.Selling;
+                        break;
+                    case 3: //bake
+                        lastState = storeState;
+                        this.storeState = storeState.Leaving;
+                        break;
+                }
+                break;
+            case Buying:
+                buying();
+                break;
+            case Selling:
+                selling();
+                break;
+            case Leaving:
+                uiEvent.printWithPause("Good fucking job. You win the game.");
+                this.storeState = null;
+                break;
+        }
 
-					gi.buyWeapon(item);
-        				//gi.buyItem(Armor.Cloth);
-				}
-				switch(interactionEvent.getOptionInput("What would you like to do?", new String[]{"Buy", "Sell", "Leave"}))
-				{
-					case 1:
-						lastState = storeState;
-						this.storeState = storeState.Buying;
-						break;
-					case 2:
-						lastState = storeState;
-						this.storeState = storeState.Selling;
-						break;
-					case 3: //bake
-						lastState = storeState;
-						this.storeState = storeState.Leaving;
-						break;
-				}
-				break;
-			case Buying:
-				buying();
-				break;
-			case Selling:
-				selling();
-				break;
-			case Leaving:
-				uiEvent.printWithPause("Good fucking job. You win the game.");
-				this.storeState = null;
-				break;
-		}
+        boolean temp = false;
+        do {
+            //temp = followScript(script);
+        } while (temp);
+    }
 
-		boolean temp = false;
-		do
-		{
-			//temp = followScript(script);
-		}while( temp );
-	}
+    private void buying() {
+        StoreState tab = StoreState.WeaponsTab;
+        LinkedList<String[]> outputArray;
+        String[] extraOptions;
+        while (true) {
+            String temp;
+            int choice;
 
-	private void buying()
-	{
-		StoreState tab = StoreState.WeaponsTab;
-		LinkedList<String[]> outputArray;
-                String [] extraOptions;
-		while(true)
-		{
-			String temp;
-			int choice;
+            switch (tab) {
+                case WeaponsTab:
+                    temp = "<Weapons> Armor Items\tYour money: $" + gi.getMoney();
+                    outputArray = new LinkedList<>();
 
-			switch(tab)
-			{
-				case WeaponsTab:
-					temp = "<Weapons> Armor Items\tYour money: $" + gi.getMoney();
-					outputArray  = new LinkedList<>();
+                    //Working
+                    LinkedList<BaseItem> allWeapons = new Weapons().getAll();
 
-                                        //Working
-                                        LinkedList<BaseItem> allWeapons = new Weapons().getAll();
-
-                                        for (int i = 0; i < allWeapons.size(); i++) {
-                                            outputArray.add( ((BaseItemWeapon)allWeapons.get(i)).getAllInfoForSaleArray() );
-                                            //Debug:
+                    for (int i = 0; i < allWeapons.size(); i++) {
+                        outputArray.add(((BaseItemWeapon) allWeapons.get(i)).getAllInfoForSaleArray());
+                        //Debug:
 //                                            for (int j = 0; j < outputArray.get(0).length; j++) {
 //                                                System.out.println(outputArray.get(0)[j]);
 //
 //                                            }
-                                        }
-                                        extraOptions = new String[]{
-                                            "View Inventory",
-                                            "Tab Left",
-                                            "Tab Right",
-                                            "Exit"};
+                    }
+                    extraOptions = new String[]{
+                        "View Inventory",
+                        "Tab Left",
+                        "Tab Right",
+                        "Exit"};
 
-                                        choice = interactionEvent.printOptoins(temp, outputArray, OutputType.StoreOutput, extraOptions);
-					System.out.println("List size: " + outputArray.size() + "\nChoice: " + choice);
-					if(choice == outputArray.size() + 1)
-					{
-                                                //TODO: Determine if this needs to be global inventory, local inventory, or both.
-						player.getCharacterInventory().showInventoy();
-						storeState = lastState;
-					}
-					else if(choice == outputArray.size() + 2)
-						tab = tabLeft(tab);
-					else if(choice == outputArray.size() + 3)
-						tab = tabRight(tab);
-					else if(choice == outputArray.size() + 4)
-					{
-						System.out.println("gfhnhff" + choice);
-						storeState = StoreState.Welcome;
-						return;
-					}
-					else
-                                            if(gi.getMoney() < allWeapons.get(choice).getCost() )
-                                                uiEvent.printWithPause("You do not have enough money for this item.");
-                                    break;
-				case ArmorTab:
-					temp = "Weapons <Armor> Items\tYour money: $" + gi.getMoney();
-					outputArray  = new LinkedList<String[]>();
-                                        LinkedList<BaseItem> allArmor = new LinkedList<BaseItem>();
+                    choice = interactionEvent.printOptoins(temp, outputArray, OutputType.StoreOutput, extraOptions);
+                    System.out.println("List size: " + outputArray.size() + "\nChoice: " + choice);
+                    if (choice == outputArray.size() + 1) {
+                        player.getGlobalInventory().view();
+                        storeState = lastState;
+                    } else if (choice == outputArray.size() + 2) {
+                        tab = tabLeft(tab);
+                    } else if (choice == outputArray.size() + 3) {
+                        tab = tabRight(tab);
+                    } else if (choice == outputArray.size() + 4) {
+                        System.out.println("gfhnhff" + choice);
+                        storeState = StoreState.Welcome;
+                        return;
+                    } else {
+                        viewItem(allWeapons.get(choice));
+                    }
+                    break;
+                case ArmorTab:
+                    temp = "Weapons <Armor> Items\tYour money: $" + gi.getMoney();
+                    outputArray = new LinkedList<String[]>();
+                    LinkedList<BaseItem> allArmor = new LinkedList<BaseItem>();
 
-                                        for (int i = 0; i < allArmor.size(); i++) {
-                                            outputArray.add( ((BaseItemArmor)allArmor.get(i)).getAllInfoForSaleArray() );
-                                        }
-                                        extraOptions = new String[]{
-                                            "View Inventory",
-                                            "Tab Left",
-                                            "Tab Right",
-                                            "Exit"};
+                    for (int i = 0; i < allArmor.size(); i++) {
+                        outputArray.add(((BaseItemArmor) allArmor.get(i)).getAllInfoForSaleArray());
+                    }
+                    extraOptions = new String[]{
+                        "View Inventory",
+                        "Tab Left",
+                        "Tab Right",
+                        "Exit"};
 
-                                        choice = interactionEvent.printOptoins(temp, outputArray, OutputType.StoreOutput, extraOptions);
+                    choice = interactionEvent.printOptoins(temp, outputArray, OutputType.StoreOutput, extraOptions);
 
-					System.out.println(choice);
-					if(choice == outputArray.size() + 1)
-						gi.view();
-					else if(choice == outputArray.size() + 2)
-						tab = tabLeft(tab);
-					else if(choice == outputArray.size() + 3)
-						tab = tabRight(tab);
-					else if(choice == outputArray.size() + 4 )
-					{
-						storeState = StoreState.Welcome;
-						return;
-					}
-					else
-                                            if(gi.getMoney() < allArmor.get(choice).getCost() )
-                                                uiEvent.printWithPause("You do not have enough money for this item.");
-                                    break;
-				case ItemsTab:
-					temp = "Weapons Armor <Items>\tYour money: $" + gi.getMoney();
-					outputArray  = new LinkedList<String[]>();
+                    System.out.println(choice);
+                    if (choice == outputArray.size() + 1) {
+                        gi.view();
+                    } else if (choice == outputArray.size() + 2) {
+                        tab = tabLeft(tab);
+                    } else if (choice == outputArray.size() + 3) {
+                        tab = tabRight(tab);
+                    } else if (choice == outputArray.size() + 4) {
+                        storeState = StoreState.Welcome;
+                        return;
+                    } else {
+                        viewItem(allArmor.get(choice));
+                    }
+                    break;
+                case ItemsTab:
+                    temp = "Weapons Armor <Items>\tYour money: $" + gi.getMoney();
+                    outputArray = new LinkedList<String[]>();
 
-                                        extraOptions = new String[]{
-                                            "View Inventory",
-                                            "Tab Left",
-                                            "Tab Right",
-                                            "Exit"};
+                    extraOptions = new String[]{
+                        "View Inventory",
+                        "Tab Left",
+                        "Tab Right",
+                        "Exit"};
 
-                                        choice = interactionEvent.printOptoins(temp, outputArray, OutputType.StoreOutput, extraOptions);
+                    choice = interactionEvent.printOptoins(temp, outputArray, OutputType.StoreOutput, extraOptions);
 
-					System.out.println(choice);
-					if(choice == outputArray.size() + 1)
-						gi.view();
-					else if(choice == outputArray.size() + 2)
-						tab = tabLeft(tab);
-					else if(choice == outputArray.size() + 3)
-						tab = tabRight(tab);
-					else if(choice == outputArray.size() + 4)
-					{
-						storeState = StoreState.Welcome;
-						return;
-					}
-					else
+                    System.out.println(choice);
+                    if (choice == outputArray.size() + 1) {
+                        gi.view();
+                    } else if (choice == outputArray.size() + 2) {
+                        tab = tabLeft(tab);
+                    } else if (choice == outputArray.size() + 3) {
+                        tab = tabRight(tab);
+                    } else if (choice == outputArray.size() + 4) {
+                        storeState = StoreState.Welcome;
+                        return;
+                    } else {
+                        break;
+                    }
+            }
+        }
+    }
 
-                                    break;
-			}
-		}
-	}
+    private void selling() {
+        GlobalInventory inventory = gi;
 
-	private void selling()
-	{
-		GlobalInventory inventory = gi;
+        LinkedList<BaseItem> weapons;
+        LinkedList<BaseItem> armor;
+        LinkedList<BaseItem> items;
 
-		LinkedList<BaseItem> weapons;
-		LinkedList<BaseItem> armor;
-		LinkedList<BaseItem> items;
+        LinkedList<String[]> w;
+        StoreState tab = StoreState.WeaponsTab;
+        String temp;
+        int choice;
+        String[] endItems;
+        int arraySize;
 
-		LinkedList<String[]> w;
-		StoreState tab = StoreState.WeaponsTab;
-		String temp;
-		int choice;
-		String [] endItems;
-		int arraySize;
+        while (true) {
+            weapons = gi.getWeapons();
+            armor = inventory.getArmor();
+            items = inventory.getItems();
+            switch (tab) {
+                case WeaponsTab:
+                    temp = "<Weapon> Armor Items\tYour money: $" + gi.getMoney();
+                    w = gi.getWeaponsString();
 
-		while(true)
-		{
-			weapons = gi.getWeapons();
-			armor = inventory.getArmor();
-			items = inventory.getItems();
-			switch(tab)
-			{
-				case WeaponsTab:
-					temp = "<Weapon> Armor Items\tYour money: $" + gi.getMoney();
-					w  = gi.getAllWeaponsFromAllInventoriesString();
+                    endOptions = new String[]{
+                        "Tab left",
+                        "Tab Right",
+                        "Leave"
+                    };
+                    //choice = -1;
+                    choice = interactionEvent.printOptions(temp, w, OutputType.SellingOutput);
 
-					endOptions = new String[]{
-						"Tab left",
-						"Tab Right",
-						"Leave"
-					};
-					//choice = -1;
-                                        choice = interactionEvent.printOptions(temp, w, OutputType.SellingOutput);
+                    choice--;
+                    System.out.println(choice + " == " + weapons.get(choice));
+                    if (choice == w.size() + endOptions.length - 3) {
+                        tab = tabLeft(tab);
+                    } else if (choice == w.size() + endOptions.length - 2) {
+                        tab = tabRight(tab);
+                    } else if (choice == w.size() + endOptions.length - 1) {
+                        storeState = StoreState.Welcome;
+                        return;
+                    }
+                    if (choice < w.size()) {
+                        int confirm = interactionEvent.getOptionInput("Are you sure?", new String[]{"yes", "no"});
+                        if (--confirm == 0) {
+                            gi.sellWeapon(choice);
+                        }
 
-					choice--;
-					System.out.println(choice + " == " + weapons.get(choice));
-					if(choice == w.size() + endOptions.length - 3)
-						tab = tabLeft(tab);
-					else if(choice == w.size() + endOptions.length - 2)
-						tab = tabRight(tab);
-					else if(choice == w.size() + endOptions.length - 1)
-					{
-						storeState = StoreState.Welcome;
-						return;
-					}
-					if(choice < w.size() )
-					{
-						int confirm = interactionEvent.getOptionInput("Are you sure?", new String[]{"yes", "no"});
-						if(--confirm == 0)
-                                                    gi.sellWeapon(choice);
+                    }
+                    break;
+                case ArmorTab:
+                    temp = "Weapon <Armor> Items\tYour money: $" + gi.getMoney();
+                    w = gi.getArmorString();
+                    endItems = new String[]{
+                        "Tab left",
+                        "Tab Right",
+                        "Leave"
+                    };
 
-					}
-					break;
-				case ArmorTab:
-					temp = "Weapon <Armor> Items\tYour money: $" + gi.getMoney();
-					w  = gi.getAllArmorFromAllInventoriesString();
-					endItems = new String[]{
-						"Tab left",
-						"Tab Right",
-						"Leave"
-					};
+                    choice = interactionEvent.printOptions(temp, w, OutputType.SellingOutput);
 
-                                        choice = interactionEvent.printOptions(temp, w, OutputType.SellingOutput);
+                    choice--;
+                    //System.out.println(choice + " == " + armorArray[choice]);
+                    if (choice == w.size() + endOptions.length - 3) {
+                        tab = tabLeft(tab);
+                    } else if (choice == w.size() + endOptions.length - 2) {
+                        tab = tabRight(tab);
+                    } else if (choice == w.size() + endOptions.length - 1) {
+                        storeState = StoreState.Welcome;
+                        return;
+                    }
+                    if (choice < armor.size()) {
+                        int confirm = interactionEvent.getOptionInput("Are you sure?", new String[]{"yes", "no"});
+                        if (--confirm == 0) {
+                            gi.sellArmor(choice);
+                        }
+                    }
+                    break;
+                case ItemsTab:
+                    temp = "Weapon Armor <Items>\tYour money: $" + gi.getMoney();
+                    w = gi.getItemsString();
+                    endOptions = new String[]{
+                        "Tab left",
+                        "Tab Right",
+                        "Leave"
+                    };
 
-					choice--;
-					//System.out.println(choice + " == " + armorArray[choice]);
-					if(choice == w.size() + endOptions.length - 3)
-						tab = tabLeft(tab);
-					else if(choice == w.size() + endOptions.length - 2)
-						tab = tabRight(tab);
-					else if(choice == w.size() + endOptions.length - 1)
-					{
-						storeState = StoreState.Welcome;
-						return;
-					}
-					if(choice < armor.size())
-					{
-						int confirm = interactionEvent.getOptionInput("Are you sure?", new String[]{"yes", "no"});
-						if(--confirm == 0)
-							gi.sellArmor(choice);
-					}
-					break;
-				case ItemsTab:
-					temp = "Weapon Armor <Items>\tYour money: $" + gi.getMoney();
-					w = gi.getAllGeneralItemsFromAllInventoriesString();
-					endOptions = new String[]{
-						"Tab left",
-						"Tab Right",
-						"Leave"
-					};
+                    choice = interactionEvent.printOptions(temp, w, OutputType.SellingOutput);
 
-                                        choice = interactionEvent.printOptions(temp, w, OutputType.SellingOutput);
+                    choice--;
+                    //System.out.println(choice + " == " + itemsArray[choice]);
+                    if (choice == w.size() + endOptions.length - 3) {
+                        tab = tabLeft(tab);
+                    } else if (choice == w.size() + endOptions.length - 2) {
+                        tab = tabRight(tab);
+                    } else if (choice == w.size() + endOptions.length - 1) {
+                        storeState = StoreState.Welcome;
+                        return;
+                    }
+                    if (choice < items.size()) {
+                        int confirm = interactionEvent.getOptionInput("Are you sure?", new String[]{"yes", "no"});
+                        if (--confirm == 0) {
+                            gi.sellItem(choice);
+                        }
+                    }
+                    break;
+            }
+        }
+    }
 
-					choice--;
-					//System.out.println(choice + " == " + itemsArray[choice]);
-					if(choice == w.size() + endOptions.length - 3)
-						tab = tabLeft(tab);
-					else if(choice == w.size() + endOptions.length - 2)
-						tab = tabRight(tab);
-					else if(choice == w.size() + endOptions.length - 1)
-					{
-						storeState = StoreState.Welcome;
-						return;
-					}
-					if(choice < items.size())
-					{
-						int confirm = interactionEvent.getOptionInput("Are you sure?", new String[]{"yes", "no"});
-						if(--confirm == 0)
-							gi.sellItem(choice);
-					}
-					break;
-			}
-		}
-	}
+    private StoreState tabRight(StoreState tab) {
+        switch (tab) {
+            case WeaponsTab:
+                return StoreState.ArmorTab;
+            case ArmorTab:
+                return StoreState.ItemsTab;
+            case ItemsTab:
+                return StoreState.WeaponsTab;
+            default:
+                return StoreState.WeaponsTab;
+        }
+    }
 
+    private StoreState tabLeft(StoreState tab) {
+        switch (tab) {
+            case WeaponsTab:
+                return StoreState.ItemsTab;
+            case ArmorTab:
+                return StoreState.WeaponsTab;
+            case ItemsTab:
+                return StoreState.ArmorTab;
+            default:
+                return StoreState.WeaponsTab;
+        }
+    }
 
+    public boolean followScript(Scanner script) {
+        if (script.hasNext()) {
+            switch (script.next()) {
 
-	private StoreState tabRight(StoreState tab)
-	{
-		switch(tab)
-		{
-			case WeaponsTab:
-				return StoreState.ArmorTab;
-			case ArmorTab:
-				return StoreState.ItemsTab;
-			case ItemsTab:
-				return StoreState.WeaponsTab;
-			default:
-				return StoreState.WeaponsTab;
-		}
-	}
+            }
+        }
+        return true;
+    }
 
-	private StoreState tabLeft(StoreState tab)
-	{
-		switch(tab)
-		{
-			case WeaponsTab:
-				return StoreState.ItemsTab;
-			case ArmorTab:
-				return StoreState.WeaponsTab;
-			case ItemsTab:
-				return StoreState.ArmorTab;
-			default:
-				return StoreState.WeaponsTab;
-		}
-	}
+    private void viewItem(BaseItem item) {
+        String[] options = new String[]{"Hell yeah!", "Nah"};
 
-	public boolean followScript(Scanner script)
-	{
-		if(script.hasNext())
-			switch(script.next())
-			{
+        String output = "Do you wish to purchase this " + item.getName() + "?\n\t"
+                + "Cost: " + item.getCost();
 
-			}
-		return true;
-	}
+        switch (item.getItemType()) {
+            case Weapon:
+                output += "\n\tAttack: " + ((BaseItemWeapon) item).getDamage()
+                        + "\n\tHanded: " + ((BaseItemWeapon) item).getHandsRequired();
+                break;
+            case Armor:
+                output += "\n\tArmor: " + ((BaseItemArmor) item).getDeffence();
+                break;
+        }
+        output += "\n\tDescription: " + item.getDescription();
+
+        int choice = interactionEvent.getOptionInput(output, options);
+
+        if (choice == 1) {
+            if (gi.getMoney() < item.getCost()) {
+                uiEvent.printWithPause("You do not have enough money for this item!");
+            } else {
+                uiEvent.printWithPause(item.getName() + " purchased!");
+                gi.buyItem(item);
+            }
+        }
+    }
 }
