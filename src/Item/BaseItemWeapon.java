@@ -1,5 +1,6 @@
 package Item;
 
+import Item.Weapons.BaseWeaponStat;
 import Player.PlayerIdentifier;
 
 public class BaseItemWeapon extends BaseItem{
@@ -10,6 +11,9 @@ public class BaseItemWeapon extends BaseItem{
     
     protected PlayerIdentifier equippedBy;
 
+    //What stat the damage goes off of
+    protected BaseWeaponStat baseWeaponStat;
+    
     public PlayerIdentifier getEquippedBy() {
         return equippedBy;
     }
@@ -28,6 +32,8 @@ public class BaseItemWeapon extends BaseItem{
         return handed;
     }
     
+    
+    
     public String getAllInfoForSale()
     {
         return getName() + "/" + getCost() + "/" + getDamage() + "/" + getHandsRequired();
@@ -35,7 +41,7 @@ public class BaseItemWeapon extends BaseItem{
     
     public String[] getAllInfoForSaleArray()
     {
-        System.err.println("Getting name: " + this.getName());
+        //aSystem.err.println("Getting name: " + this.getName());
         return new String[]{this.getName(), getCost()+"", getDamage()+"", getHandsRequired()+""};
     }
 }
